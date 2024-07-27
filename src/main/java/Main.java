@@ -12,8 +12,12 @@ public class Main extends JFrame {
 
 
     public Main(){
+        Singleton singleton = Singleton.getInstance();
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Code Analytics", new JavaParserPanel());
+        JFreeChartPanel chartPanel = new JFreeChartPanel();
+        singleton.addPropertyChangeListener(chartPanel);
+        tabbedPane.addTab("Code Analytics Pie Chart" , chartPanel);
         add(tabbedPane);
     }
 
