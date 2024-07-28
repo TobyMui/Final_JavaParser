@@ -6,14 +6,18 @@ import org.jfree.data.general.PieDataset;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class JFreeChartPanel extends JPanel implements PropertyChangeListener {
+public class JFreeChartPanel extends JPanel implements ActionListener {
+    private DirectoryManager directoryManager;
     private final JFreeChart chart;
     private static DefaultPieDataset dataset;
 
     public JFreeChartPanel(){
+        directoryManager = DirectoryManager.getInstance();
         JButton buttonLocal = new JButton("Choose a Java File...");
         dataset = createDataset();
         chart = ChartFactory.createPieChart("Code Analytics", dataset, false, true, false);
@@ -24,12 +28,28 @@ public class JFreeChartPanel extends JPanel implements PropertyChangeListener {
         setLayout(new BorderLayout());
         add(buttonLocal, BorderLayout.NORTH);
         add(chartPanel,BorderLayout.SOUTH);
+        buttonLocal.addActionListener(this);
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        updateDataset();
+    public void actionPerformed(ActionEvent e) {
+        JFileChooser directoryChooser = new JFileChooser();
+        directoryChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        directoryChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Java Files", "java"));
+        directoryChooser.setDialogTitle("Choose a Java File");
+        int result = directoryChooser.showOpenDialog(this);
+        try {
+            if (result == JFileChooser.APPROVE_OPTION) {
+                directoryManager.setDirectoryPath(directoryChooser.getSelectedFile().getAbsolutePath());
+                for(String file:directoryManager.getJavaFilesList()){
+                }
+//                parseJavaFile(fileChooser.getSelectedFile().getAbsolutePath());
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
+
 
     private void updateDataset() {
         dataset.setValue("Lines", Singleton.getInstance().getLines());
