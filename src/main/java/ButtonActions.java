@@ -3,6 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+/***
+ * @author Bryan Gomez
+ *
+ */
+
 public class ButtonActions extends Component implements ActionListener {
     private DirectoryManager directoryManager = DirectoryManager.getInstance();
 

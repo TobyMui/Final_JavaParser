@@ -5,6 +5,12 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+
+/***
+ * @author Toby Mui
+ *
+ */
+
 public class JavaParserPanel extends JPanel implements PropertyChangeListener {
 
     private JTextArea textArea;

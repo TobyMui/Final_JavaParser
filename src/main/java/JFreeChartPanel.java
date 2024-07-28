@@ -11,6 +11,12 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+
+/***
+ * @author Toby Mui
+ *
+ */
+
 public class JFreeChartPanel extends JPanel implements  PropertyChangeListener {
     private DirectoryManager directoryManager;
 
