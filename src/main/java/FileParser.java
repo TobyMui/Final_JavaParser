@@ -87,7 +87,6 @@ public class FileParser {
         int counter = 0;
         String[] lines = code.split("\n");
         for (String line : lines) {
-            System.out.println(line);
             String trimmedLine = line.trim();
             if (trimmedLine.contains(";")){
                 counter++;

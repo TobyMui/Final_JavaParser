@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 public class DirectoryManager {
     private static DirectoryManager instance;
     PropertyChangeSupport pcs;
-
+    private String chartDisplayMode; //manages which
     private String directoryPath;
     private ArrayList<String> javaFileList; //Updated when Directory is set
     private ArrayList<FileParser> parsedFileList;
@@ -33,6 +33,19 @@ public class DirectoryManager {
             instance = new DirectoryManager();
         }
         return instance;
+    }
+
+    public void setChartDisplayMode(String chartDisplayMode){
+        this.chartDisplayMode = chartDisplayMode;
+        pcs.firePropertyChange("chartDisplayMode", null, chartDisplayMode);
+    }
+
+    public String getChartDisplayMode(){
+        if(chartDisplayMode == null){
+            return "Lines";
+        }else{
+            return chartDisplayMode;
+        }
     }
 
     //PropertyChange Methods
