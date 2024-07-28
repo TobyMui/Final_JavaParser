@@ -11,6 +11,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+
+/***
+ * @author Toby Mui
+ *
+ */
+
 public class FileParser {
     String name;
     private int lines,eloc,loc,ilines,cyclomaticComplexity;
