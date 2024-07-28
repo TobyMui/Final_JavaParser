@@ -26,11 +26,13 @@ public class JFreeChartPanel extends JPanel implements  PropertyChangeListener {
         JButton buttonLOC = new JButton("LOC");
         JButton buttonELOC = new JButton("ELOC");
         JButton buttonILOC = new JButton("ILOC");
-        JPanel metricPanel = new JPanel(new GridLayout(1,4));
+        JButton buttonCC = new JButton("CC");
+        JPanel metricPanel = new JPanel(new GridLayout(1,5));
         metricPanel.add(buttonILOC);
         metricPanel.add(buttonLines);
         metricPanel.add(buttonLOC);
         metricPanel.add(buttonELOC);
+        metricPanel.add(buttonCC);
 
         dataset = createDataset();
         chart = ChartFactory.createPieChart("Please Choose a Directory", dataset, false, true, false);
@@ -49,6 +51,7 @@ public class JFreeChartPanel extends JPanel implements  PropertyChangeListener {
         buttonLOC.addActionListener(new ButtonActions());
         buttonELOC.addActionListener(new ButtonActions());
         buttonILOC.addActionListener(new ButtonActions());
+        buttonCC.addActionListener(new ButtonActions());
 
         directoryManager.addPropertyChangeListener(this);
     }
@@ -89,6 +92,12 @@ public class JFreeChartPanel extends JPanel implements  PropertyChangeListener {
                 chart.setTitle("ILOC Pie Chart");
                 for(FileParser file: directoryManager.getParsedFileList()) {
                     dataset.setValue(file.getName(), file.getILOC());
+                }
+                break;
+            case "CC":
+                chart.setTitle("CC Pie Chart");
+                for(FileParser file: directoryManager.getParsedFileList()) {
+                    dataset.setValue(file.getName(),file.getCyclomaticComplexity());
                 }
                 break;
         }

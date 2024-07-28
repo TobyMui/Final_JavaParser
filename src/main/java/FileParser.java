@@ -1,25 +1,19 @@
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.type.Type;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Optional;
 
 public class FileParser {
     String name;
-    private int lines,eloc,loc,ilines;
+    private int lines,eloc,loc,ilines,cyclomaticComplexity;
 
     public FileParser(String filePath) throws FileNotFoundException {
         InputStream in = new FileInputStream(filePath);
@@ -35,12 +29,18 @@ public class FileParser {
                 loc = CalculateLOC(classDeclaration.toString());
                 eloc = CalculateELOC(classDeclaration.toString());
                 ilines = CalculateILOC(classDeclaration.toString());
+                cyclomaticComplexity = CalculateCC(classDeclaration.toString());
             }
         }
     }
 
     public String getName(){
         return name;
+    }
+
+
+    public int getCyclomaticComplexity(){
+        return cyclomaticComplexity;
     }
 
     public int getLines(){
@@ -95,6 +95,16 @@ public class FileParser {
         return counter;
     }
 
-
-
+    public int CalculateCC(String code){
+        int counter = 0;
+        String[] lines = code.split("\n");
+        for (String line : lines) {
+            String trimmedLine = line.trim();
+            if (trimmedLine.contains("if") || trimmedLine.contains("case") || trimmedLine.contains("for") || trimmedLine.contains("while")){
+                counter++;
+            }
+        }
+        counter++;
+        return counter;
+    }
 }

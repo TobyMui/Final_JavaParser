@@ -41,6 +41,7 @@ public class JavaParserPanel extends JPanel implements ActionListener {
                     textArea.append("LOC: " + currentFile.getLOC() + "\n");
                     textArea.append("ELOC: " + currentFile.getELOC() + "\n");
                     textArea.append("ILOC: " + currentFile.getILOC() + "\n");
+                    textArea.append("Cyclomatic Complexity:" + currentFile.getCyclomaticComplexity() + "\n");
                     textArea.append("--------------------------------"+ "\n");
                 }
             }

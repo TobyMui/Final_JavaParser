@@ -12,7 +12,7 @@ public class Main extends JFrame {
 
     public Main() {
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Code Analytics", new JavaParserPanel());
+//        tabbedPane.addTab("Code Analytics", new JavaParserPanel());
 
         JFreeChartPanel chartPanel = new JFreeChartPanel();
         tabbedPane.addTab("Code Analytics Pie Chart" , chartPanel);
