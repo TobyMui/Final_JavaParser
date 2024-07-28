@@ -30,12 +30,12 @@ public class JavaParserPanel extends JPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         textArea.setText("");
         for(FileParser file: directoryManager.getParsedFileList()) {
-            textArea.append("Name" +file.getName() + "\n");
+            textArea.append("Name: " +file.getName() + "\n");
             textArea.append("Lines: " + file.getLines() + "\n");
             textArea.append("LOC: " + file.getLOC() + "\n");
             textArea.append("ELOC: " + file.getELOC() + "\n");
             textArea.append("ILOC: " + file.getILOC() + "\n");
-            textArea.append("Cyclomatic Complexity:" + file.getCyclomaticComplexity() + "\n");
+            textArea.append("Cyclomatic Complexity: " + file.getCyclomaticComplexity() + "\n");
             textArea.append("--------------------------------"+ "\n");
         }
     }

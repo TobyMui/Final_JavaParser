@@ -1,5 +1,10 @@
 import javax.swing.*;
 
+
+/***
+ * @author Bryan Gomez and Toby Mui
+ * Main method calls the features and sets the frame
+ */
 public class Main extends JFrame {
     public static void main(String[] args) {
         Main main = new Main();

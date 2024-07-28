@@ -17,6 +17,11 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+/***
+ * @author Bryan Gomez
+ * Git Visualizer Panel
+ */
+
 public class GitVisualizer extends JPanel implements ActionListener {
     private final CustomGraph graph;
     private final Object parent;
