@@ -7,7 +7,7 @@ public class Main extends JFrame {
         main.setTitle("Java Analyzer");
         main.setVisible(true);
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        main.setResizable(false);
+        main.setResizable(true);
     }
 
 
@@ -17,6 +17,8 @@ public class Main extends JFrame {
 
         JFreeChartPanel chartPanel = new JFreeChartPanel();
         tabbedPane.addTab("Code Analytics Pie Chart" , chartPanel);
+
+        tabbedPane.addTab("Class Diagram", new ClassDiagram());
         add(tabbedPane);
     }
 
