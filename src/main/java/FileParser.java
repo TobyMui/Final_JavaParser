@@ -30,7 +30,6 @@ public class FileParser {
             CompilationUnit compilationUnit = result.get();
             List<ClassOrInterfaceDeclaration> classDeclarations = compilationUnit.findAll(ClassOrInterfaceDeclaration.class);
             for (ClassOrInterfaceDeclaration classDeclaration : classDeclarations) {
-                System.out.println(classDeclaration.toString());
                 name = String.valueOf(classDeclaration.getName());
                 lines = classDeclaration.getEnd().get().line;
                 loc = CalculateLOC(classDeclaration.toString());

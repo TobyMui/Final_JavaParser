@@ -8,16 +8,23 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/***
+ * @author Toby
+ * Singleton Implementation
+ */
+
 public class DirectoryManager {
     private static DirectoryManager instance;
     PropertyChangeSupport pcs;
 
     private String directoryPath;
     private ArrayList<String> javaFileList; //Updated when Directory is set
+    private ArrayList<FileParser> parsedFileList;
 
     private DirectoryManager(){
         pcs = new PropertyChangeSupport(this);
         javaFileList = new ArrayList<>();
+        parsedFileList = new ArrayList<>();
     }
 
 
@@ -48,12 +55,25 @@ public class DirectoryManager {
                     .map(Path::toString)
                     .collect(Collectors.toCollection(ArrayList::new));
         }
-        //Update the ArrayList
+        //Update javaFileList
         javaFileList.clear();
         javaFileList.addAll(javaFiles);
+
+        //Update parsed files list
+        parsedFileList.clear();
+        FileParser currentFile;
+        for(String file: this.javaFileList){
+            currentFile = new FileParser(file);
+            parsedFileList.add(currentFile);
+        }
+        pcs.firePropertyChange(null, null, null);
     }
 
     public ArrayList<String> getJavaFilesList() {
         return javaFileList;
+    }
+
+    public ArrayList<FileParser> getParsedFileList() {
+        return parsedFileList;
     }
 }

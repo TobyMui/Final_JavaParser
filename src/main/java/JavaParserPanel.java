@@ -9,7 +9,7 @@ public class JavaParserPanel extends JPanel implements ActionListener {
     private DirectoryManager directoryManager;
 
     public JavaParserPanel() {
-        JButton buttonLocal = new JButton("Choose a Java File...");
+        JButton buttonLocal = new JButton("Choose a Java Directory...");
         textArea = new JTextArea();
         textArea.setBackground(new Color(200,200,200));
         JScrollPane scrollPane = new JScrollPane(textArea);

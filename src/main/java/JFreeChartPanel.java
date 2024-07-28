@@ -11,45 +11,30 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class JFreeChartPanel extends JPanel implements ActionListener {
+public class JFreeChartPanel extends JPanel implements  PropertyChangeListener {
     private DirectoryManager directoryManager;
     private final JFreeChart chart;
     private static DefaultPieDataset dataset;
 
     public JFreeChartPanel(){
+
         directoryManager = DirectoryManager.getInstance();
-        JButton buttonLocal = new JButton("Choose a Java File...");
+        JButton buttonLocal = new JButton("Choose a Java Directory...");
+
         dataset = createDataset();
-        chart = ChartFactory.createPieChart("Code Analytics", dataset, false, true, false);
+        chart = ChartFactory.createPieChart("Lines of Code", dataset, false, true, false);
         chart.setBackgroundPaint(new Color(172, 248, 199));
         chart.getPlot().setBackgroundPaint(new Color(172, 248, 199));
         chart.getPlot().setOutlineVisible(false);
+        chart.setAntiAlias(true);
         ChartPanel chartPanel = new ChartPanel(chart);
         setLayout(new BorderLayout());
         add(buttonLocal, BorderLayout.NORTH);
-        add(chartPanel,BorderLayout.SOUTH);
-        buttonLocal.addActionListener(this);
-    }
+        add(chartPanel,BorderLayout.CENTER);
+        buttonLocal.addActionListener(new ButtonActions());
+        directoryManager.addPropertyChangeListener(this);
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JFileChooser directoryChooser = new JFileChooser();
-        directoryChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        directoryChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Java Files", "java"));
-        directoryChooser.setDialogTitle("Choose a Java File");
-        int result = directoryChooser.showOpenDialog(this);
-        try {
-            if (result == JFileChooser.APPROVE_OPTION) {
-                directoryManager.setDirectoryPath(directoryChooser.getSelectedFile().getAbsolutePath());
-                for(String file:directoryManager.getJavaFilesList()){
-                }
-//                parseJavaFile(fileChooser.getSelectedFile().getAbsolutePath());
-            }
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
     }
-
 
     private void updateDataset() {
         dataset.setValue("Lines", Singleton.getInstance().getLines());
@@ -58,8 +43,17 @@ public class JFreeChartPanel extends JPanel implements ActionListener {
 
     private static DefaultPieDataset createDataset(){
         DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Lines", Singleton.getInstance().getLines());
-        dataset.setValue("LOC", Singleton.getInstance().getLoc());
+        dataset.setValue("Lines", 10);
+        dataset.setValue("LOC", 11);
         return dataset;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        dataset.clear();
+        for(FileParser file: directoryManager.getParsedFileList()) {
+            dataset.setValue(file.getName(), file.getLines());
+        }
+        this.repaint();
     }
 }
