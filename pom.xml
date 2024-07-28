@@ -71,6 +71,12 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.32</version>
         </dependency>
-    </dependencies>
 
+        <!-- GitHub API dependency -->
+        <dependency>
+            <groupId>org.kohsuke</groupId>
+            <artifactId>github-api</artifactId>
+            <version>1.133</version>
+        </dependency>
+    </dependencies>
 </project>

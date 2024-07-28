@@ -10,8 +10,7 @@ public class Main extends JFrame {
         main.setResizable(true);
     }
 
-
-    public Main(){
+    public Main() {
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Code Analytics", new JavaParserPanel());
 
@@ -19,8 +18,10 @@ public class Main extends JFrame {
         tabbedPane.addTab("Code Analytics Pie Chart" , chartPanel);
 
         tabbedPane.addTab("Class Diagram", new ClassDiagram());
+
+        // Add the GitVisualizer tab
+        tabbedPane.addTab("Git Visualizer", new GitVisualizer());
+
         add(tabbedPane);
     }
-
-
 }
