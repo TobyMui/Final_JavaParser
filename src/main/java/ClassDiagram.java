@@ -19,14 +19,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/***
+ * @author Bryan Gomez
+ * Class Diagram Panel
+ */
+
 public class ClassDiagram extends JPanel implements ActionListener {
-    private final mxGraph graph;
+    private final CustomGraph graph;
     private final Object parent;
     private final Map<String, mxCell> classCells; // Map to keep track of class cells
 
     public ClassDiagram() {
         JButton buttonLocal = new JButton("Choose a Java Source Directory...");
-        graph = new mxGraph();
+        graph = new CustomGraph();
         parent = graph.getDefaultParent();
         classCells = new HashMap<>();
         mxGraphComponent graphComponent = new mxGraphComponent(graph);
@@ -85,30 +90,23 @@ public class ClassDiagram extends JPanel implements ActionListener {
 
             for (ClassOrInterfaceDeclaration classDeclaration : classDeclarations) {
                 String className = classDeclaration.getNameAsString();
-                mxCell classCell = (mxCell) graph.insertVertex(parent, null, className, 100, 100, 80, 30);
-                classCells.put(className, classCell); // Store class cell
-
-                classDeclaration.getFields().forEach(field -> {
-                    String fieldName = field.getVariables().get(0).getNameAsString();
-                    graph.insertVertex(classCell, null, fieldName, 0, 0, 80, 20);
-                });
+                if (!classCells.containsKey(className)) {
+                    mxCell classCell = (mxCell) graph.insertVertex(parent, null, className, 100, 100, 80, 30);
+                    classCells.put(className, classCell); // Store class cell
+                }
 
                 // Handle inheritance
                 for (ClassOrInterfaceType extendedType : classDeclaration.getExtendedTypes()) {
                     String parentClassName = extendedType.getNameAsString();
-                    mxCell parentClassCell = classCells.get(parentClassName);
-                    if (parentClassCell != null) {
-                        graph.insertEdge(parent, null, "", classCell, parentClassCell);
-                    }
+                    mxCell parentClassCell = classCells.computeIfAbsent(parentClassName, key -> (mxCell) graph.insertVertex(parent, null, key, 100, 100, 80, 30));
+                    graph.insertEdge(parent, null, "extends", classCells.get(className), parentClassCell);
                 }
 
                 // Handle interface implementation
                 for (ClassOrInterfaceType implementedType : classDeclaration.getImplementedTypes()) {
                     String interfaceName = implementedType.getNameAsString();
-                    mxCell interfaceCell = classCells.get(interfaceName);
-                    if (interfaceCell != null) {
-                        graph.insertEdge(parent, null, "", classCell, interfaceCell);
-                    }
+                    mxCell interfaceCell = classCells.computeIfAbsent(interfaceName, key -> (mxCell) graph.insertVertex(parent, null, key, 100, 100, 80, 30));
+                    graph.insertEdge(parent, null, "implements", classCells.get(className), interfaceCell);
                 }
             }
         }
@@ -156,5 +154,12 @@ public class ClassDiagram extends JPanel implements ActionListener {
             }
         }
         return null;
+    }
+
+    private static class CustomGraph extends mxGraph {
+        @Override
+        public boolean isCellConnectable(Object cell) {
+            return false; // Disable cell connections
+        }
     }
 }
